@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMR計算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #result {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>BMR計算器</h1>
+    <form id="bmrForm">
+        <label for="gender">性別：</label>
+        <select id="gender" name="gender" required>
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+        </select><br><br>
+        
+        <label for="weight">體重（公斤）：</label>
+        <input type="text" id="weight" name="weight" required><br><br>
+        
+        <label for="height">身高（公分）：</label>
+        <input type="text" id="height" name="height" required><br><br>
+        
+        <label for="age">年齡：</label>
+        <input type="text" id="age" name="age" required><br><br>
+        
+        <label for="activity">活動水平：</label>
+        <select id="activity" name="activity" required>
+            <option value="1.2">久坐（辦公室工作）</option>
+            <option value="1.375">輕度活動（每週運動1-3天）</option>
+            <option value="1.55">中度活動（每週運動3-5天）</option>
+            <option value="1.725">高度活動（每週運動6-7天）</option>
+            <option value="1.9">極度活動（每天高強度運動或體力勞動）</option>
+        </select><br><br>
+        
+        <input type="submit" value="計算BMR">
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("bmrForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            var gender = document.getElementById("gender").value;
+            var weight = parseFloat(document.getElementById("weight").value);
+            var height = parseFloat(document.getElementById("height").value);
+            var age = parseInt(document.getElementById("age").value);
+            var activity = parseFloat(document.getElementById("activity").value);
+            
+            var bmr;
+            
+            if (gender === "male") {
+                bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age);
+            } else {
+                bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age);
+            }
+            
+            bmr = bmr.toFixed(2); // 保留兩位小數
+            
+            var resultDiv = document.getElementById("result");
+            resultDiv.textContent = "您的BMR值為 " + bmr + " 卡路里/日";
+            
+            var tdee = bmr * activity;
+            tdee = tdee.toFixed(2); // 保留兩位小數
+        resultDiv.innerHTML += "<br>您的每日總消耗為 " + tdee + " 卡路里/日";
+
+        // 將計算結果顯示在表單中
+        document.getElementById("bmrValue").textContent = bmr + " 卡路里/日";
+        document.getElementById("tdeeValue").textContent = tdee + " 卡路里/日";
+    });
+</script>
+
